@@ -8,7 +8,7 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: REQUIRED by the constitution (Test-First, NON-NEGOTIABLE). Every user story MUST include test tasks, written and failing before implementation tasks.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -62,12 +62,14 @@ description: "Task list template for feature implementation"
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
+- [ ] T004 Setup database schema and migrations framework (encrypted personal data fields)
+- [ ] T005 [P] Implement messaging webhook with signature verification and admin auth
+- [ ] T006 [P] Setup translation catalogue (Urdu / Roman Urdu) and crop/mandi synonym dictionary
+- [ ] T007 Create base models/entities and versioned prompt files
+- [ ] T008 Configure error handling, structured logging with conversation IDs, source tracing, and error tracking
 - [ ] T009 Setup environment configuration management
+- [ ] T009a [P] Add health check endpoint and dependency vulnerability scanning in CI
+- [ ] T009b [P] Setup golden LLM eval set runner in CI with recorded fixtures for external services
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -79,7 +81,7 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 1 (REQUIRED - write first) ⚠️
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
@@ -105,7 +107,7 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 2 (REQUIRED - write first) ⚠️
 
 - [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
 - [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
@@ -127,7 +129,7 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 3 (REQUIRED - write first) ⚠️
 
 - [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
 - [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
@@ -152,9 +154,10 @@ Examples of foundational tasks (adjust based on your project):
 
 - [ ] TXXX [P] Documentation updates in docs/
 - [ ] TXXX Code cleanup and refactoring
-- [ ] TXXX Performance optimization across all stories
-- [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
-- [ ] TXXX Security hardening
+- [ ] TXXX Verify reply-time budgets (median < 5 s, p95 < 10 s) and reply length limits
+- [ ] TXXX [P] Extend eval set with Urdu and Roman Urdu questions for every P1 journey
+- [ ] TXXX [P] Additional unit tests in tests/unit/
+- [ ] TXXX Security & privacy hardening (PII-in-logs audit, prompt-injection tests, authorization denial tests)
 - [ ] TXXX Run quickstart.md validation
 
 ---

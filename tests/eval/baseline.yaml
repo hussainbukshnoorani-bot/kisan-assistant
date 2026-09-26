@@ -1,0 +1,5 @@
+# Minimum pass rate per script. Raise these as the eval set grows; never lower them without
+# a recorded reason (constitution Principle II).
+min_pass_rate:
+  ur: 1.0
+  ur-Latn: 1.0

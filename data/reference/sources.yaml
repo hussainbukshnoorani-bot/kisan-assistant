@@ -1,0 +1,19 @@
+# Price sources (FR-017, research R6). Seeding never changes `enabled` or the terms fields of
+# an existing row: a live source is enabled only by a reviewed migration after its terms are
+# verified (task T079). The fixture source is seeded disabled; `seed_reference --dev` enables
+# it on development machines only.
+sources:
+  - id: amis_punjab
+    display_name_ur: اے ایم آئی ایس پنجاب
+    display_name_ur_latn: AMIS Punjab
+    url: http://www.amis.pk/
+    terms_note: null
+    terms_verified_on: null
+    enabled: false
+  - id: fixture
+    display_name_ur: ٹیسٹ ڈیٹا
+    display_name_ur_latn: Test data
+    url: tests/fixtures/sources/fixture
+    terms_note: Recorded test fixtures for development; not a live source.
+    terms_verified_on: 2026-09-26
+    enabled: false

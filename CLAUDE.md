@@ -1,4 +1,4 @@
-# Claude Code Rules
+﻿# Claude Code Rules
 
 This file is generated during init for the selected agent.
 
@@ -208,3 +208,19 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- TypeScript 5.x on Node.js 24 — npm workspaces `backend/` + `frontend/` (001-todo-app)
+- Backend: Express 5, zod, helmet, express-rate-limit, pino/pino-http; SQLite via built-in `node:sqlite` (001-todo-app)
+- Frontend: React 19, React Router, Vite (001-todo-app)
+- Tests: Vitest, Supertest, React Testing Library, MSW, Playwright + @axe-core/playwright (001-todo-app)
+- Python 3.11 + FastAPI, Uvicorn, Pydantic v2, SQLAlchemy 2.0, Alembic, httpx, selectolax, rapidfuzz, anthropic SDK (claude-haiku-4-5), structlog (002-mandi-price-lookup)
+- Tests: pytest, pytest-asyncio, respx, pgserver, time-machine, pip-audit; golden eval set in tests/eval (002-mandi-price-lookup)
+- PostgreSQL 16 (002-mandi-price-lookup)
+
+## Commands
+- Install: `uv venv --python 3.11 .venv` then `uv pip install --python .venv -e ".[dev]"`
+- Tests: `.venv/Scripts/python -m pytest` (starts its own PostgreSQL via pgserver)
+- Lint/types: `.venv/Scripts/ruff check .` · `.venv/Scripts/mypy`
+- Run locally: `python -m kisan.jobs.seed_reference --dev`, `python -m kisan.jobs.fetch_prices --source fixture`, `uvicorn kisan.app:create_app --factory`
+- Deploy: Vercel (`api/index.py`, `vercel.json`, `INLINE_REPLIES=true`)

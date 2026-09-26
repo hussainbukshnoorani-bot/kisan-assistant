@@ -1,0 +1,73 @@
+# Launch mandis (FR-010). `neighbours` is the reviewed fallback list for FR-008, in order of
+# preference; only mandis within roughly 150 km by road are listed. Review before the pilot.
+mandis:
+  - id: lahore
+    name_ur: لاہور
+    name_ur_latn: Lahore
+    name_en: Lahore
+    district: Lahore
+    province: punjab
+    neighbours: [gujranwala, okara]
+  - id: multan
+    name_ur: ملتان
+    name_ur_latn: Multan
+    name_en: Multan
+    district: Multan
+    province: punjab
+    neighbours: [bahawalpur, sahiwal]
+  - id: faisalabad
+    name_ur: فیصل آباد
+    name_ur_latn: Faisalabad
+    name_en: Faisalabad
+    district: Faisalabad
+    province: punjab
+    neighbours: [sargodha, okara]
+  - id: gujranwala
+    name_ur: گوجرانوالہ
+    name_ur_latn: Gujranwala
+    name_en: Gujranwala
+    district: Gujranwala
+    province: punjab
+    neighbours: [lahore]
+  - id: rawalpindi
+    name_ur: راولپنڈی
+    name_ur_latn: Rawalpindi
+    name_en: Rawalpindi
+    district: Rawalpindi
+    province: punjab
+    neighbours: []
+  - id: sahiwal
+    name_ur: ساہیوال
+    name_ur_latn: Sahiwal
+    name_en: Sahiwal
+    district: Sahiwal
+    province: punjab
+    neighbours: [okara, multan]
+  - id: bahawalpur
+    name_ur: بہاولپور
+    name_ur_latn: Bahawalpur
+    name_en: Bahawalpur
+    district: Bahawalpur
+    province: punjab
+    neighbours: [multan, rahim_yar_khan]
+  - id: sargodha
+    name_ur: سرگودھا
+    name_ur_latn: Sargodha
+    name_en: Sargodha
+    district: Sargodha
+    province: punjab
+    neighbours: [faisalabad]
+  - id: okara
+    name_ur: اوکاڑہ
+    name_ur_latn: Okara
+    name_en: Okara
+    district: Okara
+    province: punjab
+    neighbours: [sahiwal, lahore]
+  - id: rahim_yar_khan
+    name_ur: رحیم یار خان
+    name_ur_latn: Rahim Yar Khan
+    name_en: Rahim Yar Khan
+    district: Rahim Yar Khan
+    province: punjab
+    neighbours: [bahawalpur]

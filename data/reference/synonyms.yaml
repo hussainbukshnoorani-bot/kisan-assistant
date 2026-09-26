@@ -1,0 +1,93 @@
+# Accepted spellings (constitution Principle VIII). Every entry is normalised before use, so
+# case, punctuation, and Arabic/Urdu letter variants do not need separate entries.
+# Needs native-speaker review before the pilot (task T077). Avoid words with another common
+# meaning (e.g. "gana" = song).
+crops:
+  wheat:
+    ur: [گندم, کنک]
+    ur-Latn: [gandum, gandam, gundum, gandm, gehun, gehoon, gehu, kanak]
+    en: [wheat]
+  cotton:
+    ur: [کپاس, پھٹی]
+    ur-Latn: [kapas, kapaas, phutti, phuti, phutty]
+    en: [cotton]
+  paddy_basmati:
+    ur: [باسمتی, باسمتی دھان, دھان باسمتی, باسمتی مونجی]
+    ur-Latn: [basmati, basmti, basmati dhaan, dhaan basmati, basmati munji, munji basmati]
+    en: [paddy basmati, basmati paddy]
+  paddy_irri:
+    ur: [اری, ایری, اری دھان, دھان اری, اری مونجی]
+    ur-Latn: [irri, iri, irri dhaan, dhaan irri, irri munji, munji irri]
+    en: [paddy irri, irri paddy]
+  maize:
+    ur: [مکئی, مکی, مکائی]
+    ur-Latn: [makai, makki, makkai, maki]
+    en: [maize, corn]
+
+# General words for a crop family: they mean every crop listed (FR-010: "rice" = both paddies)
+crop_groups:
+  rice:
+    crops: [paddy_basmati, paddy_irri]
+    words: [چاول, دھان, مونجی, chawal, chawel, chawl, chaawal, dhaan, munji, monji, rice, paddy]
+
+# Crops we do not cover; naming one gets the "not yet supported" reply (spec edge case)
+unsupported_crops: [گنا, گنے, کماد, ganna, gunna, ganne, kamad, sugarcane]
+
+# Exact labels used by price sources (contracts/price-source.md step 1). Source labels are
+# matched only against this list, never fuzzily, so e.g. milled "Rice Basmati Super" is never
+# taken for paddy.
+source_labels:
+  crops:
+    wheat: [Wheat]
+    cotton: [Seed Cotton(Phutti)]
+    paddy_basmati: [Paddy Basmati]
+    paddy_irri: [Paddy (IRRI)]
+    maize: [Maize]
+
+mandis:
+  lahore:
+    ur: [لاہور]
+    ur-Latn: [lahore, lahor]
+  multan:
+    ur: [ملتان]
+    ur-Latn: [multan, multaan]
+  faisalabad:
+    ur: [فیصل آباد, فیصلآباد, لائلپور]
+    ur-Latn: [faisalabad, faislabad, faisalabaad, lyallpur]
+  gujranwala:
+    ur: [گوجرانوالہ, گجرانوالہ]
+    ur-Latn: [gujranwala, gujranwla, gujrawala]
+  rawalpindi:
+    ur: [راولپنڈی, پنڈی]
+    ur-Latn: [rawalpindi, pindi]
+  sahiwal:
+    ur: [ساہیوال]
+    ur-Latn: [sahiwal, saiwal, sahiwaal]
+  bahawalpur:
+    ur: [بہاولپور]
+    ur-Latn: [bahawalpur, bhawalpur, bahawalpoor]
+  sargodha:
+    ur: [سرگودھا]
+    ur-Latn: [sargodha, sargodah]
+  okara:
+    ur: [اوکاڑہ]
+    ur-Latn: [okara, okarah, okaara]
+  rahim_yar_khan:
+    ur: [رحیم یار خان]
+    ur-Latn: [rahim yar khan, rahimyarkhan, rahim yaar khan, ryk]
+
+# Words asking for the list of supported mandis, crops, or both (FR-011)
+list_words:
+  mandis: [منڈیاں, منڈیوں, mandiyan, mandiyon, mandiya]
+  crops: [فصلیں, fasalain, fasalen, faslein]
+  both: [فہرست, list]
+
+# Words showing a price question even when no supported crop or mandi is named; such
+# questions get the "not yet supported" reply instead of the general help (spec edge case)
+price_words:
+  ur: [ریٹ, بھاؤ, قیمت, منڈی, نرخ]
+  ur-Latn: [rate, rates, bhao, bhav, price, prices, qeemat, keemat, mandi, nirakh]
+
+# Common words never fuzzy-matched against names
+stopwords: [mandi, mandy, mein, main, ka, ki, ke, kya, kia, hai, rate, rates, bhao, bhav, price,
+            prices, aaj, today, kitna, kitne, batao, bataen, bataiye, what, the, and, aur, kaise]

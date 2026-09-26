@@ -1,0 +1,35 @@
+# Launch crops (FR-010). Sugarcane was dropped (no farm mandi price on AMIS); rice is two crops
+# because AMIS publishes paddy by variety (research R6 verification).
+# Plausible ranges are sanity bounds in Rs per 40 kg used to reject obviously wrong source
+# values (FR-015); they are deliberately wide and must be reviewed against real AMIS data.
+crops:
+  - id: wheat
+    name_ur: گندم
+    name_ur_latn: Gandum
+    name_en: Wheat
+    min_plausible_rs_40kg: 1500
+    max_plausible_rs_40kg: 10000
+  - id: cotton
+    name_ur: کپاس
+    name_ur_latn: Kapas
+    name_en: Cotton (phutti)
+    min_plausible_rs_40kg: 3000
+    max_plausible_rs_40kg: 20000
+  - id: paddy_basmati
+    name_ur: دھان باسمتی
+    name_ur_latn: Dhaan Basmati
+    name_en: Paddy (Basmati)
+    min_plausible_rs_40kg: 1500
+    max_plausible_rs_40kg: 15000
+  - id: paddy_irri
+    name_ur: دھان اری
+    name_ur_latn: Dhaan IRRI
+    name_en: Paddy (IRRI)
+    min_plausible_rs_40kg: 800
+    max_plausible_rs_40kg: 10000
+  - id: maize
+    name_ur: مکئی
+    name_ur_latn: Makai
+    name_en: Maize
+    min_plausible_rs_40kg: 1000
+    max_plausible_rs_40kg: 8000

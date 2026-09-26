@@ -1,0 +1,39 @@
+# GitHub Actions CI. To enable: move this file to .github/workflows/ci.yml and push with a
+# GitHub login that has the "workflow" permission (e.g. `gh auth refresh -s workflow`).
+
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: kisan
+          POSTGRES_PASSWORD: kisan
+          POSTGRES_DB: kisan_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U kisan"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql+psycopg://kisan:kisan@localhost:5432/kisan_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: mypy
+      - run: coverage run -m pytest
+      - run: coverage report --fail-under=80
+      - run: pip-audit

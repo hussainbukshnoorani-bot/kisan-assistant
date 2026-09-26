@@ -1,0 +1,46 @@
+# Roman Urdu replies. Needs native-speaker review before the pilot (task T077).
+# SMS variants must use GSM-7 characters only (FR-001a): plain hyphens and quotes.
+
+help: >-
+  Main mandi ke rate batata hoon. Misal: "Multan mandi mein gandum ka rate?"
+  Mandiyon ki list ke liye "mandiyan", fasalon ke liye "fasalain" likhein.
+
+non_text: Maaf kijiye, abhi main sirf likha hua message parh sakta hoon.
+
+# --- prices (FR-005): crop, mandi, price, unit, source, date ---
+price: "{mandi} mandi, {crop}: {price} fi 40 kg. Zariya: {source}, {date}."
+price_single: "Rs {value}"
+price_range: "Rs {low}-{high}"
+no_price: "{mandi} mandi mein {crop} ka taaza rate abhi maujood nahin."
+price_stale: "{mandi} mandi, {crop}: aakhri rate {price} fi 40 kg, {date} ka hai (taaza nahin). Zariya: {source}."
+price_other_mandi:
+  whatsapp: "{mandi} mandi mein {crop} ka taaza rate nahin. Qareebi {other_mandi} mandi: {price} fi 40 kg. Zariya: {source}, {date}."
+  sms: "{mandi} mein {crop} ka taaza rate nahin. Qareebi {other_mandi}: {price} fi 40 kg. Zariya: {source}, {date}."
+more_pairs: Baqi ke liye alag message bhejein.
+
+# --- clarification and lists (FR-009, FR-011) ---
+ask_mandi: "{crop} ka rate kis mandi ka chahiye? Misal: Multan, Lahore, Faisalabad"
+ask_crop: "{mandi} mandi mein kis fasal ka rate chahiye? Misal: gandum, kapas, chawal"
+unsupported: Yeh fasal ya mandi abhi shamil nahin. List ke liye "mandiyan" likhein.
+list_mandis: "Mandiyan: {mandis}"
+list_crops: "Fasalain: {crops}"
+list_crops_hint: Fasalon ke liye "fasalain" likhein.
+list_separator: ", "
+
+# --- timing (FR-013) ---
+checking: Rate dekh raha hoon, zara intezar karein.
+source_down: Is waqt rate nahin mil rahe. Thori der baad dobara poochein.
+
+# --- dates ---
+month_1: Jan
+month_2: Feb
+month_3: Mar
+month_4: Apr
+month_5: May
+month_6: Jun
+month_7: Jul
+month_8: Aug
+month_9: Sep
+month_10: Oct
+month_11: Nov
+month_12: Dec

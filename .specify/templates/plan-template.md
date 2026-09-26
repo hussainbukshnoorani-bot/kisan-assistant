@@ -31,7 +31,18 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] **I. Test-First**: Plan orders test tasks before implementation for every user story
+- [ ] **II. Tests at Every Layer**: Unit, contract (webhook, sources, LLM), E2E conversation tests, and golden eval set defined; external services stubbed with fixtures
+- [ ] **III. Tests Define Done**: Every acceptance scenario maps to an automated test; 80% coverage gate on new code
+- [ ] **IV. Security & Privacy**: Personal data fields listed with encryption + retention; no PIN/OTP collection; webhook signature verification; prompt-injection handling; dependency scanning in CI
+- [ ] **V. Simplicity**: No speculative features/abstractions; every new dependency or layer justified in Complexity Tracking
+- [ ] **VI. Observability**: Structured logs with conversation IDs; answers traceable to source, fetch time, prompt version, model; scraper failure alerts; health checks
+- [ ] **VII. Accessible Conversations**: Reply length ≤ 480 chars default; farmer units; median < 5 s / p95 < 10 s reply time; clarifying-question behavior defined
+- [ ] **VIII. Bilingual**: Urdu + Roman Urdu handling, translation catalogue, synonym dictionary, eval questions in both scripts
+- [ ] **IX. Grounded Data**: Every data source listed with terms of use, freshness limit, and stale/no-data behavior; no LLM-generated figures
+- [ ] **X. Safe Advice**: Advice framing, dosage restrictions, and extension-office referral defined
+- [ ] **XI. Indicative Eligibility**: Deterministic, versioned rules with cited sources; indicative-only disclaimer and document list in replies
+- [ ] **Constraints**: Contracts for webhook/sources/LLM defined before implementation; prompts versioned; no committed secrets
 
 ## Project Structure
 

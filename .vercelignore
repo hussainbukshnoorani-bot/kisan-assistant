@@ -1,0 +1,16 @@
+.venv/
+.pgdata/
+.env
+.env.*
+tests/
+specs/
+history/
+.specify/
+.claude/
+.github/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage

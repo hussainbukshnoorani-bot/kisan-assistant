@@ -1,0 +1,15 @@
+# Development prices for `python -m kisan.jobs.fetch_prices --source fixture`.
+# Dates are relative to today (days_ago) so the data always looks current. Values are
+# illustrative only, not real market prices.
+prices:
+  # crop labels are the exact AMIS labels (research R6 verification)
+  - {crop: Wheat, mandi: Multan, days_ago: 1, min: 3900, max: 4050, unit: 40 Kg}
+  - {crop: Wheat, mandi: Lahore, days_ago: 1, min: 4000, max: 4100, unit: 40 Kg}
+  - {crop: Wheat, mandi: Faisalabad, days_ago: 1, min: 3950, max: 4075, unit: 40 Kg}
+  - {crop: Seed Cotton(Phutti), mandi: Multan, days_ago: 1, min: 8200, max: 8650, unit: 40 Kg}
+  - {crop: Seed Cotton(Phutti), mandi: Bahawalpur, days_ago: 2, min: 8100, max: 8500, unit: 40 Kg}
+  - {crop: Paddy Basmati, mandi: Gujranwala, days_ago: 1, min: 9500, max: 11000, unit: 100 Kg}
+  - {crop: Paddy (IRRI), mandi: Gujranwala, days_ago: 1, min: 3500, max: 3750, unit: 100 Kg}
+  - {crop: Maize, mandi: Sahiwal, days_ago: 1, min: 62.5, max: 65, unit: Kg}
+  # not a supported crop: must be skipped as unmapped
+  - {crop: sugarcane(گنڈ یری), mandi: Rahim Yar Khan, days_ago: 5, min: 450, max: 475, unit: 40 Kg}

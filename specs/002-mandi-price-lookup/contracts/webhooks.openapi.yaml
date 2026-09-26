@@ -1,0 +1,136 @@
+openapi: 3.1.0
+info:
+  title: Kisan Assistant – Messaging Webhooks
+  version: 0.1.0
+  description: >
+    Inbound endpoints for the mandi price lookup feature. Replies are sent asynchronously
+    through each provider's send API; these endpoints only acknowledge receipt.
+paths:
+  /webhooks/whatsapp:
+    get:
+      summary: WhatsApp Cloud API subscription verification
+      parameters:
+        - { name: hub.mode, in: query, required: true, schema: { type: string, enum: [subscribe] } }
+        - { name: hub.verify_token, in: query, required: true, schema: { type: string } }
+        - { name: hub.challenge, in: query, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Token matches; body is the hub.challenge value as plain text
+          content: { text/plain: { schema: { type: string } } }
+        "403": { description: Token does not match }
+    post:
+      summary: Inbound WhatsApp messages and status updates
+      parameters:
+        - name: X-Hub-Signature-256
+          in: header
+          required: true
+          description: "sha256=<hex HMAC-SHA256 of the raw body using the app secret>"
+          schema: { type: string, pattern: "^sha256=[0-9a-f]{64}$" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/WhatsAppWebhook" }
+      responses:
+        "200": { description: Accepted; processing continues in the background }
+        "401": { description: Missing or invalid signature; body not parsed }
+        "422": { description: Signature valid but payload not a WhatsApp webhook }
+  /webhooks/sms/{secret}:
+    post:
+      summary: Inbound SMS from the aggregator (normalised by the SmsProvider adapter)
+      description: >
+        Exact provider fields are mapped in the adapter once a vendor is chosen (research R4).
+        The adapter MUST produce the internal InboundMessage; this schema is the fake provider
+        used in tests and development.
+      parameters:
+        - { name: secret, in: path, required: true, schema: { type: string, minLength: 32 } }
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema: { $ref: "#/components/schemas/SmsInbound" }
+          application/json:
+            schema: { $ref: "#/components/schemas/SmsInbound" }
+      responses:
+        "200": { description: Accepted }
+        "401": { description: Secret does not match (constant-time comparison) }
+        "422": { description: Missing required fields }
+  /health:
+    get:
+      summary: Liveness and data freshness
+      responses:
+        "200":
+          description: Healthy or degraded
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Health" }
+        "503":
+          description: Database unreachable
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Health" }
+components:
+  schemas:
+    WhatsAppWebhook:
+      type: object
+      required: [object, entry]
+      properties:
+        object: { type: string, const: whatsapp_business_account }
+        entry:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              changes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field: { type: string }
+                    value:
+                      type: object
+                      properties:
+                        messaging_product: { type: string, const: whatsapp }
+                        metadata:
+                          type: object
+                          properties:
+                            phone_number_id: { type: string }
+                        messages:
+                          type: array
+                          items:
+                            type: object
+                            required: [from, id, timestamp, type]
+                            properties:
+                              from: { type: string, description: "Sender number, digits only" }
+                              id: { type: string }
+                              timestamp: { type: string }
+                              type:
+                                type: string
+                                description: "Only 'text' is answered; others get the non_text reply"
+                              text:
+                                type: object
+                                properties:
+                                  body: { type: string, maxLength: 4096 }
+                        statuses:
+                          type: array
+                          description: Delivery status updates; logged and ignored
+                          items: { type: object }
+    SmsInbound:
+      type: object
+      required: [from, message_id, text]
+      properties:
+        from: { type: string, description: "E.164 or local 03xx format; normalised to E.164" }
+        message_id: { type: string }
+        text: { type: string, maxLength: 1600 }
+        received_at: { type: string, format: date-time }
+    Health:
+      type: object
+      required: [status, database, newest_price_date]
+      properties:
+        status: { type: string, enum: [ok, degraded, down] }
+        database: { type: string, enum: [ok, down] }
+        newest_price_date:
+          type: [string, "null"]
+          format: date
+          description: "status is 'degraded' when older than 3 days"

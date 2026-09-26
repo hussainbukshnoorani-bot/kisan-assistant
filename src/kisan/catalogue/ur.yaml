@@ -1,0 +1,46 @@
+# Urdu-script replies. Needs native-speaker review before the pilot (task T077).
+
+help: >-
+  میں منڈی کے ریٹ بتاتا ہوں۔ مثال: "ملتان منڈی میں گندم کا ریٹ؟"
+  منڈیوں کی فہرست کے لیے "منڈیاں"، فصلوں کے لیے "فصلیں" لکھیں۔
+
+non_text: معاف کیجیے، ابھی میں صرف لکھا ہوا پیغام پڑھ سکتا ہوں۔
+
+# --- prices (FR-005): crop, mandi, price, unit, source, date ---
+price: "{mandi} منڈی، {crop}: {price} فی 40 کلو۔ ذریعہ: {source}، {date}۔"
+price_single: "{value} روپے"
+price_range: "{low} سے {high} روپے"
+no_price: "{mandi} منڈی میں {crop} کا تازہ ریٹ ابھی موجود نہیں۔"
+price_stale: "{mandi} منڈی، {crop}: آخری ریٹ {price} فی 40 کلو، {date} کا ہے (تازہ نہیں)۔ ذریعہ: {source}۔"
+price_other_mandi:
+  whatsapp: "{mandi} منڈی میں {crop} کا تازہ ریٹ نہیں۔ قریبی {other_mandi} منڈی: {price} فی 40 کلو۔ ذریعہ: {source}، {date}۔"
+  # shorter for the 134-character Urdu SMS budget (FR-001a)
+  sms: "{mandi} میں {crop} کا تازہ ریٹ نہیں۔ قریبی {other_mandi}: {price} فی 40 کلو۔ ذریعہ: {source}، {date}۔"
+more_pairs: باقی کے لیے الگ پیغام بھیجیں۔
+
+# --- clarification and lists (FR-009, FR-011) ---
+ask_mandi: "{crop} کا ریٹ کس منڈی کا چاہیے؟ مثال: ملتان، لاہور، فیصل آباد"
+ask_crop: "{mandi} منڈی میں کس فصل کا ریٹ چاہیے؟ مثال: گندم، کپاس، چاول"
+unsupported: یہ فصل یا منڈی ابھی شامل نہیں۔ فہرست کے لیے "منڈیاں" لکھیں۔
+list_mandis: "منڈیاں: {mandis}"
+list_crops: "فصلیں: {crops}"
+list_crops_hint: فصلوں کے لیے "فصلیں" لکھیں۔
+list_separator: "، "
+
+# --- timing (FR-013) ---
+checking: ریٹ دیکھ رہا ہوں، ذرا انتظار کریں۔
+source_down: اس وقت ریٹ نہیں مل رہے۔ تھوڑی دیر بعد دوبارہ پوچھیں۔
+
+# --- dates ---
+month_1: جنوری
+month_2: فروری
+month_3: مارچ
+month_4: اپریل
+month_5: مئی
+month_6: جون
+month_7: جولائی
+month_8: اگست
+month_9: ستمبر
+month_10: اکتوبر
+month_11: نومبر
+month_12: دسمبر

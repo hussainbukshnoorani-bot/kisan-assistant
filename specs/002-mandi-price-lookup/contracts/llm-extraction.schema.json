@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kisan/llm-extraction/v1",
+  "title": "LLM extraction result",
+  "description": "Output of the LLM fallback stage (research R8). IDs MUST come from the crop and mandi lists supplied in the prompt; the caller rejects any ID not in the dictionary. The model never returns prices or reply text.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["intent", "crop_ids", "mandi_ids"],
+  "properties": {
+    "intent": {
+      "type": "string",
+      "enum": ["price", "list", "help", "other"]
+    },
+    "crop_ids": {
+      "type": "array",
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z_]+$" }
+    },
+    "mandi_ids": {
+      "type": "array",
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z_]+$" }
+    }
+  }
+}

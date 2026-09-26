@@ -1,4 +1,4 @@
-"""Vercel entry point: exposes the FastAPI app as `app`.
+"""Vercel entry point (FastAPI zero-config): exposes the app as `app`.
 
 Configuration comes from Vercel environment variables (DATABASE_URL, CONTACT_HASH_PEPPER,
 SMS_WEBHOOK_SECRET, INLINE_REPLIES=true, WHATSAPP_*). Replies are sent inside the request
@@ -9,7 +9,7 @@ import os
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src"))
 os.environ.setdefault("REFERENCE_DIR", str(ROOT / "data" / "reference"))
 os.environ.setdefault("INLINE_REPLIES", "true")

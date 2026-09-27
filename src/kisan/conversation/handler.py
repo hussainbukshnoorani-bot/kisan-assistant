@@ -7,9 +7,9 @@ import time
 import uuid
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field, replace
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -39,6 +39,8 @@ from kisan.understanding.script import Script, detect_script
 log = get_logger(__name__)
 
 MAX_PAIRS = 3
+# Security finding F2: replies cost money, so one contact gets at most this many per minute
+RATE_LIMIT_PER_MINUTE = 10
 # When several pairs are answered, the reply type reflects the most useful line.
 _LINE_PRIORITY = ["price", "price_other_mandi", "price_stale", "no_price"]
 
@@ -81,6 +83,11 @@ class Handler:
                 script = await asyncio.to_thread(self._script_for, message)
                 if not await asyncio.to_thread(self._record_turn, turn_id, message, script):
                     log.info("duplicate_message_ignored")
+                    return
+                if await asyncio.to_thread(self._over_rate_limit, message):
+                    log.warning("rate_limited")
+                    await asyncio.to_thread(self._complete_turn, turn_id,
+                                            Decision("rate_limited", ""), 0, False)
                     return
             except SQLAlchemyError as exc:
                 # The farmer still gets an answer when the database is down (US2 scenario 4).
@@ -136,6 +143,18 @@ class Handler:
                 .order_by(ConversationTurn.received_at.desc()).limit(1)
             ).first()
         return "ur" if last == "ur" else "ur-Latn"
+
+    def _over_rate_limit(self, message: InboundMessage) -> bool:
+        """True when this contact already has more than the allowed messages on this channel
+        in the minute up to this one (counted by received time; WhatsApp's is Meta-signed)."""
+        with self._sessions() as session:
+            recent = session.scalar(
+                select(func.count()).select_from(ConversationTurn).where(
+                    ConversationTurn.contact_hash == message.contact_hash,
+                    ConversationTurn.channel == message.channel,
+                    ConversationTurn.received_at > message.received_at - timedelta(minutes=1),
+                    ConversationTurn.received_at <= message.received_at))
+        return (recent or 0) > RATE_LIMIT_PER_MINUTE
 
     def _record_turn(self, turn_id: uuid.UUID, message: InboundMessage, script: Script) -> bool:
         """Insert the turn before replying; a repeated delivery conflicts (FR-019)."""

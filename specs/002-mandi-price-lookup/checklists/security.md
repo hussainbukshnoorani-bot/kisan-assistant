@@ -32,7 +32,7 @@
 | # | Risk | Severity | Action |
 |---|------|----------|--------|
 | F1 | The SMS webhook secret is part of the URL path, so it appears in hosting request logs. | Medium | When the SMS vendor is chosen (T076), prefer a header secret or signature; rotate `SMS_WEBHOOK_SECRET` if logs are shared. |
-| F2 | No rate limiting on webhooks; anyone holding a secret could flood the bot (cost, DB load). | Low | Add per-contact rate limiting before the pilot, or rely on the provider's own limits. |
+| F2 | No rate limiting on webhooks; anyone holding a secret could flood the bot (cost, DB load). | Low | **Fixed 2026-09-28**: at most 10 replies per contact per channel per minute; extra messages are stored as `rate_limited` and not answered (`tests/integration/test_rate_limit.py`). The window uses the provider's received time, which WhatsApp signs; revisit for the SMS vendor. |
 | F3 | The demo deployment has the sample ("Test data") price source enabled. Replies are labelled "Test data", but farmers must never see it. | High before pilot | Disable the fixture source (`UPDATE price_sources SET enabled=false WHERE id='fixture'`) before any real farmer uses the number. |
 | F4 | `/docs` and `/openapi.json` are public on the demo. | Low | Turn off docs in production when WhatsApp goes live. |
 | F5 | `anthropic` was an unused dependency (LLM fallback not built). | Low | **Fixed 2026-09-27**: removed from pyproject.toml and requirements.txt; re-add with T071 if the gate fails. |

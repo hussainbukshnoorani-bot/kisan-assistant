@@ -17,10 +17,22 @@ python -m venv .venv
 . .venv/Scripts/activate        # Windows Git Bash; use .venv/bin/activate on Linux/macOS
 pip install -e ".[dev]"
 cp .env.example .env            # then fill in values; never commit .env
-docker compose up -d db               # or, without Docker: a pgserver database (see below)
+docker compose up -d db               # or, without Docker, see "PostgreSQL without Docker" below
 alembic upgrade head
 python -m kisan.jobs.seed_reference --dev   # reference data + enables the sample price source
 ```
+
+### PostgreSQL without Docker
+
+The dev extra installs `pgserver`, which bundles PostgreSQL. Start a database that keeps its
+data in the git-ignored `.pgdata/` folder and print its URL for `DATABASE_URL` in `.env`:
+
+```bash
+python -c "import pgserver; s = pgserver.get_server('.pgdata', cleanup_mode=None); s.psql('CREATE DATABASE kisan;'); print(s.get_uri('kisan'))"
+```
+
+(`CREATE DATABASE` fails harmlessly if it already exists.) `alembic`, the jobs, and the app all
+read `DATABASE_URL` from `.env`.
 
 Key variables in `.env`:
 

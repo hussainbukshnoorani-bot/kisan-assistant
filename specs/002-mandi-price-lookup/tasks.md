@@ -185,15 +185,15 @@ demonstrated on its own.
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [ ] T074 [P] Implement the purge job (turns older than 90 days, expired clarifications) with an integration test in `src/kisan/jobs/purge.py` and `tests/integration/test_purge.py`
-- [ ] T075 [P] Security & privacy review: PII-in-logs audit across all e2e runs, webhook denial tests pass, `pip-audit` clean; record results in `specs/002-mandi-price-lookup/checklists/security.md`
+- [X] T074 [P] Implement the purge job (turns older than 90 days, expired clarifications) with an integration test in `src/kisan/jobs/purge.py` and `tests/integration/test_purge.py`
+- [X] T075 [P] Security & privacy review: PII-in-logs audit across all e2e runs, webhook denial tests pass, `pip-audit` clean; record results in `specs/002-mandi-price-lookup/checklists/security.md`
 - [ ] T076 Implement the chosen SMS vendor adapter (after T008) mapping its callback to `InboundMessage` and its send API, with contract tests from recorded vendor payloads, in `src/kisan/channels/sms.py` and `tests/contract/test_sms_vendor.py`
 - [ ] T077 [P] Native-speaker review of `src/kisan/catalogue/ur.yaml`, `src/kisan/catalogue/ur-Latn.yaml`, and `tests/eval/golden.yaml` (≥ 50 questions per script in total); record reviewer and date in `specs/002-mandi-price-lookup/checklists/language-review.md`
-- [ ] T078 [P] Load test the webhook path (median < 5 s, p95 < 10 s at 5 messages/s) and record results in `specs/002-mandi-price-lookup/checklists/performance.md`
+- [X] T078 [P] Load test the webhook path (median < 5 s, p95 < 10 s at 5 messages/s) and record results in `specs/002-mandi-price-lookup/checklists/performance.md`
 - [ ] T079 Enable the AMIS source (`enabled=true`, `terms_verified_on` set) only after T007 is complete, via a data migration in `src/kisan/db/migrations/`
 - [ ] T085 [P] Run the pilot survey (≥ 20 farmers) and record SC-005 results in `specs/002-mandi-price-lookup/checklists/pilot.md`
-- [ ] T086 [P] Make the eval runner report SC-001 and SC-006 (clarified questions resolved within 2 bot messages) in `tests/eval/test_golden.py`
-- [ ] T080 Run every step in `specs/002-mandi-price-lookup/quickstart.md` on a clean checkout and fix any drift in `specs/002-mandi-price-lookup/quickstart.md`
+- [X] T086 [P] Make the eval runner report SC-001 and SC-006 (clarified questions resolved within 2 bot messages) in `tests/eval/test_golden.py`
+- [X] T080 Run every step in `specs/002-mandi-price-lookup/quickstart.md` on a clean checkout and fix any drift in `specs/002-mandi-price-lookup/quickstart.md`
 
 ---
 

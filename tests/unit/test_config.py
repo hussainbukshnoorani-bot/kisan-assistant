@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from pydantic import ValidationError
 
@@ -55,3 +57,23 @@ def test_hosted_postgres_urls_use_psycopg_driver(url: str) -> None:
 
 def test_inline_replies_off_by_default() -> None:
     assert make().inline_replies is False
+
+
+def test_migrations_read_database_url_from_env_file(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from kisan.config import database_url_from_env
+
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+    env_file = tmp_path / ".env"
+    env_file.write_text("DATABASE_URL=postgres://u:p@h/db\nCONTACT_HASH_PEPPER=\n",
+                        encoding="utf-8")
+    assert database_url_from_env(env_file) == "postgresql+psycopg://u:p@h/db"
+
+
+def test_environment_variable_wins_over_env_file(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from kisan.config import database_url_from_env
+
+    monkeypatch.setenv("DATABASE_URL", "postgresql://from-env/db")
+    (tmp_path / ".env").write_text("DATABASE_URL=postgresql://from-file/db\n", encoding="utf-8")
+    assert database_url_from_env(tmp_path / ".env") == "postgresql+psycopg://from-env/db"

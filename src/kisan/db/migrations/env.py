@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import os
-
 from alembic import context
 from sqlalchemy import create_engine
 
+from kisan.config import database_url_from_env
 from kisan.db.models import Base
 
 config = context.config
@@ -12,10 +11,8 @@ target_metadata = Base.metadata
 
 
 def _url() -> str:
-    url = config.get_main_option("sqlalchemy.url") or os.environ.get("DATABASE_URL")
-    if not url:
-        raise RuntimeError("DATABASE_URL is not set")
-    return url
+    # Set by kisan.db.migrate.upgrade; otherwise DATABASE_URL from the environment or .env
+    return config.get_main_option("sqlalchemy.url") or database_url_from_env()
 
 
 def run_migrations_offline() -> None:

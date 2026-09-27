@@ -1,0 +1,28 @@
+# Multi-message eval cases for SC-006: an incomplete question must reach the correct price
+# within two bot messages. Needs native-speaker review (T077).
+# Each case: messages (sent in order), expect {crop, mandi} of the final price reply.
+conversations:
+  - messages: ["gandum ka rate?", "Multan"]
+    expect: {crop: wheat, mandi: multan}
+  - messages: ["Multan mandi ka rate", "gandum"]
+    expect: {crop: wheat, mandi: multan}
+  - messages: ["kapas ka bhao batao", "multan mandi"]
+    expect: {crop: cotton, mandi: multan}
+  - messages: ["Lahore", "gehun"]
+    expect: {crop: wheat, mandi: lahore}
+  - messages: ["makai?", "Sahiwal"]
+    expect: {crop: maize, mandi: sahiwal}
+  - messages: ["basmati ka rate", "gujranwala"]
+    expect: {crop: paddy_basmati, mandi: gujranwala}
+  - messages: ["گندم کا ریٹ؟", "ملتان"]
+    expect: {crop: wheat, mandi: multan}
+  - messages: ["ملتان منڈی کا ریٹ", "کپاس"]
+    expect: {crop: cotton, mandi: multan}
+  - messages: ["لاہور", "گندم"]
+    expect: {crop: wheat, mandi: lahore}
+  - messages: ["مکئی کا بھاؤ", "ساہیوال"]
+    expect: {crop: maize, mandi: sahiwal}
+  - messages: ["فیصل آباد", "گندم کا ریٹ"]
+    expect: {crop: wheat, mandi: faisalabad}
+  - messages: ["gandum ka rate?", "Faislabad"]
+    expect: {crop: wheat, mandi: faisalabad}

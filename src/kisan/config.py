@@ -9,6 +9,25 @@ from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+def normalise_database_url(url: str) -> str:
+    """Hosted Postgres (e.g. Neon) gives postgres:// URLs; SQLAlchemy needs the driver."""
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix):]
+    return url
+
+
+class _DatabaseOnly(BaseSettings):
+    model_config = SettingsConfigDict(env_file_encoding="utf-8", extra="ignore")
+    database_url: str
+
+
+def database_url_from_env(env_file: Path | None = Path(".env")) -> str:
+    """DATABASE_URL from the environment, else from the .env file (used by migrations, which
+    must not require the app's other settings)."""
+    return normalise_database_url(_DatabaseOnly(_env_file=env_file).database_url)  # type: ignore[call-arg]
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
@@ -42,8 +61,4 @@ class Settings(BaseSettings):
     @field_validator("database_url")
     @classmethod
     def _use_psycopg_driver(cls, url: str) -> str:
-        """Hosted Postgres (e.g. Neon) gives postgres:// URLs; SQLAlchemy needs the driver."""
-        for prefix in ("postgres://", "postgresql://"):
-            if url.startswith(prefix):
-                return "postgresql+psycopg://" + url[len(prefix):]
-        return url
+        return normalise_database_url(url)

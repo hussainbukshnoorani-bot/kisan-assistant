@@ -20,6 +20,7 @@ HERE = Path(__file__).resolve().parent
 REFERENCE = HERE.parents[1] / "data" / "reference"
 
 pytestmark = pytest.mark.eval
+SC001_MIN = 0.90
 
 
 def _load(name: str) -> Any:
@@ -41,6 +42,12 @@ def _check(case: dict[str, Any], dictionary: Dictionary) -> bool:
     )
 
 
+def _is_clear_question(case: dict[str, Any]) -> bool:
+    """SC-001 counts questions that name both a supported crop and a supported mandi."""
+    expect = case["expect"]
+    return bool(expect.get("crop_ids")) and bool(expect.get("mandi_ids"))
+
+
 def test_golden_set_meets_baseline() -> None:
     cases = _load("golden.yaml")["cases"]
     baseline = _load("baseline.yaml")
@@ -48,19 +55,27 @@ def test_golden_set_meets_baseline() -> None:
 
     totals: dict[str, int] = defaultdict(int)
     passed: dict[str, int] = defaultdict(int)
+    clear_total = clear_passed = 0
     failures: list[str] = []
     for case in cases:
         script = case.get("script") or detect_script(case["text"])
         totals[script] += 1
-        if _check(case, dictionary):
+        ok = _check(case, dictionary)
+        if _is_clear_question(case):
+            clear_total += 1
+            clear_passed += ok
+        if ok:
             passed[script] += 1
         else:
             failures.append(f"[{script}] {case['text']!r} -> {dictionary.extract(case['text'])}")
 
     rates = {script: passed[script] / totals[script] for script in totals}
     print("\neval pass rates:", {s: f"{r:.0%} ({passed[s]}/{totals[s]})" for s, r in rates.items()})
+    print(f"SC-001 clear questions understood in one message: "
+          f"{clear_passed / clear_total:.0%} ({clear_passed}/{clear_total})")
     for failure in failures:
         print("  FAIL", failure)
+    assert clear_passed / clear_total >= SC001_MIN
 
     for script, minimum in baseline["min_pass_rate"].items():
         assert totals[script] > 0, f"no eval cases for {script}"

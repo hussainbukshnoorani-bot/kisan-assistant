@@ -214,7 +214,7 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 - Backend: Express 5, zod, helmet, express-rate-limit, pino/pino-http; SQLite via built-in `node:sqlite` (001-todo-app)
 - Frontend: React 19, React Router, Vite (001-todo-app)
 - Tests: Vitest, Supertest, React Testing Library, MSW, Playwright + @axe-core/playwright (001-todo-app)
-- Python 3.11 + FastAPI, Uvicorn, Pydantic v2, SQLAlchemy 2.0, Alembic, httpx, selectolax, rapidfuzz, anthropic SDK (claude-haiku-4-5), structlog (002-mandi-price-lookup)
+- Python 3.11 + FastAPI, Uvicorn, Pydantic v2, SQLAlchemy 2.0, Alembic, httpx, selectolax, rapidfuzz, structlog (002-mandi-price-lookup)
 - Tests: pytest, pytest-asyncio, respx, pgserver, time-machine, pip-audit; golden eval set in tests/eval (002-mandi-price-lookup)
 - PostgreSQL 16 (002-mandi-price-lookup)
 

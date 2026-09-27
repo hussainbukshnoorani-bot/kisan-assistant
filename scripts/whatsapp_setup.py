@@ -36,6 +36,12 @@ if missing:
 verify = read_env(".env.vercel-demo")["WHATSAPP_VERIFY_TOKEN"]
 
 
+def show(response: httpx.Response) -> object:
+    if response.headers.get("content-type", "").startswith("application/json"):
+        return response.json()
+    return response.text[:200]
+
+
 def vercel_env(name: str, value: str) -> None:
     subprocess.run(["vercel", "env", "rm", name, "production", "--yes"], capture_output=True,
                    shell=True)
@@ -59,14 +65,16 @@ app_token = f"{wa['META_APP_ID']}|{wa['META_APP_SECRET']}"
 r = httpx.post(f"{GRAPH}/{wa['META_APP_ID']}/subscriptions", data={
     "object": "whatsapp_business_account", "callback_url": f"{LIVE}/webhooks/whatsapp",
     "verify_token": verify, "fields": "messages", "access_token": app_token}, timeout=60)
-print(f"  HTTP {r.status_code}: {r.json() if r.headers.get('content-type','').startswith('application/json') else r.text[:200]}")
+print(f"  HTTP {r.status_code}: {show(r)}")
 
 print("4. Subscribe app to the WhatsApp Business Account")
 r = httpx.post(f"{GRAPH}/{wa['WHATSAPP_BUSINESS_ACCOUNT_ID']}/subscribed_apps",
                headers={"Authorization": f"Bearer {wa['WHATSAPP_ACCESS_TOKEN']}"}, timeout=60)
-print(f"  HTTP {r.status_code}: {r.json() if r.headers.get('content-type','').startswith('application/json') else r.text[:200]}")
+print(f"  HTTP {r.status_code}: {show(r)}")
 
 print("5. Verify handshake on the live URL")
 r = httpx.get(f"{LIVE}/webhooks/whatsapp", params={
-    "hub.mode": "subscribe", "hub.verify_token": verify, "hub.challenge": "kisan-check"}, timeout=60)
-print("  OK" if r.status_code == 200 and r.text == "kisan-check" else f"  FAILED: HTTP {r.status_code}")
+    "hub.mode": "subscribe", "hub.verify_token": verify, "hub.challenge": "kisan-check"},
+    timeout=60)
+ok = r.status_code == 200 and r.text == "kisan-check"
+print("  OK" if ok else f"  FAILED: HTTP {r.status_code}")

@@ -98,7 +98,7 @@ $meta
     text-transform: uppercase; color: var(--wheat); }
   .steps { list-style: none; margin: 0; padding: 0; display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
-  .steps li { display: grid; gap: 6px; }
+  .steps li { display: grid; gap: 6px; align-content: start; }
   .num { font: 500 13px "IBM Plex Mono", ui-monospace, monospace; color: var(--wheat); }
   .sample { background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
     padding: 18px; display: grid; gap: 10px; max-width: 560px; }
@@ -142,7 +142,7 @@ _HOME = """
   <h1 style="margin-top:12px">Today's crop prices, asked in your own words</h1>
   <p class="lead">Kisan Assistant answers Pakistani farmers' questions about mandi prices. Send a
     message in Urdu or Roman Urdu and get the latest rate per 40 kg, with its source and date.</p>
-  <p class="ur" style="font-size:18px;margin-top:8px">اپنی زبان میں منڈی کا ریٹ پوچھیں</p>
+  <p style="margin-top:8px"><span class="ur" style="font-size:18px">اپنی زبان میں منڈی کا ریٹ پوچھیں</span></p>
 </section>
 
 <section>

@@ -67,6 +67,7 @@ ignore = ["S101"]
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S105", "S106", "S311", "S608"]  # fixed SQL strings in test helpers
 "src/kisan/db/migrations/versions/*" = ["E501"]
+"src/kisan/site.py" = ["E501"]  # long lines are HTML page copy
 "scripts/*" = ["S602", "S607"]  # local helpers call the vercel CLI through the Windows shell
 
 [tool.mypy]

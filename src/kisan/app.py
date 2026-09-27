@@ -15,7 +15,7 @@ from typing import Any
 
 import httpx
 from fastapi import BackgroundTasks, FastAPI, Query, Request
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from sqlalchemy import Engine, func, select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
@@ -31,6 +31,7 @@ from kisan.db.models import PriceRecord
 from kisan.jobs.daily import run_daily
 from kisan.observability import configure_logging, get_logger
 from kisan.prices.lookup import FRESHNESS_DAYS, today_pkt
+from kisan.site import load_business, render_page
 from kisan.understanding.dictionary import Dictionary
 
 log = get_logger(__name__)
@@ -124,6 +125,23 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             return JSONResponse({"error": "invalid SMS payload"}, status_code=422)
         await _dispatch(message, background)
         return JSONResponse({"status": "accepted"})
+
+    def _page(name: str) -> HTMLResponse:
+        # Read on each request so edits to business.yaml show without a code change.
+        return HTMLResponse(render_page(name, load_business(settings.business_file),
+                                        settings.meta_domain_verification))
+
+    @app.get("/", response_class=HTMLResponse, include_in_schema=False)
+    async def home() -> HTMLResponse:
+        return _page("home")
+
+    @app.get("/privacy", response_class=HTMLResponse, include_in_schema=False)
+    async def privacy() -> HTMLResponse:
+        return _page("privacy")
+
+    @app.get("/terms", response_class=HTMLResponse, include_in_schema=False)
+    async def terms() -> HTMLResponse:
+        return _page("terms")
 
     @app.get("/jobs/daily")
     async def daily_job(request: Request) -> JSONResponse:

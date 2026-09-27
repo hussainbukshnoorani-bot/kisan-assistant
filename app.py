@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src"))
 os.environ.setdefault("REFERENCE_DIR", str(ROOT / "data" / "reference"))
 os.environ.setdefault("SAMPLE_PRICES_FILE", str(ROOT / "data" / "sample_prices.yaml"))
+os.environ.setdefault("BUSINESS_FILE", str(ROOT / "data" / "business.yaml"))
 os.environ.setdefault("INLINE_REPLIES", "true")
 
 from kisan.app import create_app  # noqa: E402

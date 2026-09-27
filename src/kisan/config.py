@@ -47,6 +47,9 @@ class Settings(BaseSettings):
 
     # Crops, mandis, synonyms, sources (relative to the working directory by default)
     reference_dir: Path = Path("data/reference")
+    # Public website details (legal name, address...) and Meta domain-verification code
+    business_file: Path = Path("data/business.yaml")
+    meta_domain_verification: str | None = None
     # Illustrative prices for the development/demo "fixture" source
     sample_prices_file: Path = Path("data/sample_prices.yaml")
 

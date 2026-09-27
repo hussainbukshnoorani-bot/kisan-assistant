@@ -86,6 +86,7 @@ def settings(database_url: str) -> Settings:
         sms_provider="fake",
         sms_webhook_secret=SMS_SECRET,
         reference_dir=ROOT / "data" / "reference",
+        business_file=ROOT / "data" / "business.yaml",
     )
 
 

@@ -1,0 +1,11 @@
+# Business details shown on the public website (/, /privacy, /terms).
+# For Meta business verification these MUST match your documents exactly (SECP / Registrar of
+# Firms certificate, FBR NTN certificate, utility bill or bank statement). Leave a field empty
+# until you know it; the site then shows "To be added" instead of a guess.
+name: Kisan Assistant
+name_ur: کسان اسسٹنٹ
+legal_name: ""        # e.g. the company or sole-proprietor name on your NTN certificate
+address: ""           # full postal address as on your utility bill / bank statement
+phone: ""             # business phone for Meta to call or text during verification
+email: ""             # business contact email (ideally on your own domain)
+whatsapp_number: ""   # the bot's public WhatsApp number, once connected

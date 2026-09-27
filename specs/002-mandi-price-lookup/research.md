@@ -53,6 +53,26 @@ related implementation task starts; each has a matching blocking task in `tasks.
 - **VERIFY**: Vendor selection and contract (two-way support, Urdu/UCS-2 delivery, callback
   authentication method, cost per segment) is a procurement step outside the codebase. Until a
   vendor is chosen, development and all tests use the recorded-fixture fake provider.
+- **T008 decision (2026-09-27): Ufone** (user's choice). Public information found:
+  - **Outbound — Ufone Business SMS (BSMS) HTTP API.** No official public docs; described by
+    unofficial copies of the spec (BSMS API v0.3/v0.8 on Scribd) and a community PHP wrapper
+    (github.com/asimzeeshan/UfoneBusinessSMSAPI): HTTP `GET` to a `bsms.ufone.com` JSP endpoint
+    with parameters `id` (sender MSISDN), `message`, `shortcode`, `lang`, `password`,
+    `mobilenum` (92XXXXXXXXXX); XML response with `response_id` 0 = sent, 1 = failed. Urdu is
+    supported ("English-Urdu"), selected via `lang` — exact value undocumented.
+  - **Inbound (two-way) — not documented.** BSMS is described as outbound only; receiving
+    farmers' messages needs a Ufone short code / MO arrangement agreed commercially.
+  - **Must be confirmed with Ufone in writing before T076** (the adapter is not built on the
+    unofficial spec): (1) inbound short code or long number with an HTTP callback (MO)
+    to our webhook, its payload fields and how it is authenticated (header secret or
+    signature preferred — see security finding F1); (2) whether farmers on **Jazz, Telenor
+    and Zong** can reach that number, or only Ufone subscribers (a Ufone-only number would
+    exclude most farmers); (3) the current official send API (HTTPS? the unofficial one is
+    plain HTTP with the password in the URL), the `lang` value for Urdu, and UCS-2
+    concatenation up to 2 segments; (4) delivery receipts; (5) price per segment for Urdu
+    and English, and short-code rental.
+  - If Ufone cannot offer cross-network inbound, use an aggregator that connects Ufone plus
+    the other three networks to one short code, keeping Ufone for outbound if cheaper.
 - **Rationale**: International providers generally cannot offer inbound two-way numbers in
   Pakistan; local aggregators with PTA-registered shortcodes are the normal route.
 - **Alternatives considered**: Twilio SMS (outbound to Pakistan is possible, but two-way inbound

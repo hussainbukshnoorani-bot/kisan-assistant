@@ -175,11 +175,11 @@ demonstrated on its own.
 
 **Purpose**: Reach SC-002 (≥ 90% understood) if the dictionary alone does not (plan Complexity Tracking).
 
-- [ ] T067 [US1] Run the eval set with the dictionary only and record per-script pass rates in `specs/002-mandi-price-lookup/research.md` under R8; **if both scripts are ≥ 90%, mark T068, T070–T072 as not needed and skip to Phase 7**
-- [ ] T068 [P] [US1] Contract tests for LLM extraction: valid JSON per `contracts/llm-extraction.schema.json` accepted; unknown IDs, extra fields, non-JSON, and timeouts (> 4 s) all become "not understood"; phone number never present in the request body — using recorded responses in `tests/contract/test_llm_extract.py`
-- [ ] T070 [US1] Write the versioned extraction prompt (dictionary ID list injected, farmer text in a delimited data block) in `src/kisan/understanding/prompts/extract_v1.md`
-- [ ] T071 [US1] Implement `llm_extract` with the anthropic SDK (`claude-haiku-4-5`, 4 s timeout, JSON schema validation, dictionary ID check) in `src/kisan/understanding/llm_extract.py`
-- [ ] T072 [US1] Call `llm_extract` from `handle_message` only when the dictionary finds nothing or is ambiguous, and record `understood_by`, `prompt_version`, `model` on the ConversationTurn in `src/kisan/conversation/handler.py`
+- [X] T067 [US1] Run the eval set with the dictionary only and record per-script pass rates in `specs/002-mandi-price-lookup/research.md` under R8; **if both scripts are ≥ 90%, mark T068, T070–T072 as not needed and skip to Phase 7**
+- [X] T068 [P] [US1] Contract tests for LLM extraction: valid JSON per `contracts/llm-extraction.schema.json` accepted; unknown IDs, extra fields, non-JSON, and timeouts (> 4 s) all become "not understood"; phone number never present in the request body — using recorded responses in `tests/contract/test_llm_extract.py` *(Not needed: T067 gate passed at 100%, 2026-09-27; revisit after T077/T085.)*
+- [X] T070 [US1] Write the versioned extraction prompt (dictionary ID list injected, farmer text in a delimited data block) in `src/kisan/understanding/prompts/extract_v1.md` *(Not needed: T067 gate passed at 100%, 2026-09-27; revisit after T077/T085.)*
+- [X] T071 [US1] Implement `llm_extract` with the anthropic SDK (`claude-haiku-4-5`, 4 s timeout, JSON schema validation, dictionary ID check) in `src/kisan/understanding/llm_extract.py` *(Not needed: T067 gate passed at 100%, 2026-09-27; revisit after T077/T085.)*
+- [X] T072 [US1] Call `llm_extract` from `handle_message` only when the dictionary finds nothing or is ambiguous, and record `understood_by`, `prompt_version`, `model` on the ConversationTurn in `src/kisan/conversation/handler.py` *(Not needed: T067 gate passed at 100%, 2026-09-27; revisit after T077/T085.)*
 
 ---
 

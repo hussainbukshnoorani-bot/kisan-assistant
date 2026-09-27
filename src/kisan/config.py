@@ -28,6 +28,12 @@ class Settings(BaseSettings):
 
     # Crops, mandis, synonyms, sources (relative to the working directory by default)
     reference_dir: Path = Path("data/reference")
+    # Illustrative prices for the development/demo "fixture" source
+    sample_prices_file: Path = Path("data/sample_prices.yaml")
+
+    # Bearer secret for the daily scheduled job (/jobs/daily); the route is off when unset.
+    # Vercel Cron sends `Authorization: Bearer $CRON_SECRET` automatically.
+    cron_secret: SecretStr | None = None
 
     # Serverless hosts (Vercel) may freeze a function once it responds, so replies must be
     # sent before the webhook returns instead of in a background task.

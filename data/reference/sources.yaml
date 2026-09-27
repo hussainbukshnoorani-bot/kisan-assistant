@@ -13,7 +13,7 @@ sources:
   - id: fixture
     display_name_ur: ٹیسٹ ڈیٹا
     display_name_ur_latn: Test data
-    url: tests/fixtures/sources/fixture
+    url: data/sample_prices.yaml
     terms_note: Recorded test fixtures for development; not a live source.
     terms_verified_on: 2026-09-26
     enabled: false

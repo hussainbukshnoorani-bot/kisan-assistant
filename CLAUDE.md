@@ -223,4 +223,4 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 - Tests: `.venv/Scripts/python -m pytest` (starts its own PostgreSQL via pgserver)
 - Lint/types: `.venv/Scripts/ruff check .` · `.venv/Scripts/mypy`
 - Run locally: `python -m kisan.jobs.seed_reference --dev`, `python -m kisan.jobs.fetch_prices --source fixture`, `uvicorn kisan.app:create_app --factory`
-- Deploy: Vercel (`api/index.py`, `vercel.json`, `INLINE_REPLIES=true`)
+- Deploy: Vercel (root `app.py`, `vercel.json` framework fastapi, `INLINE_REPLIES=true`)

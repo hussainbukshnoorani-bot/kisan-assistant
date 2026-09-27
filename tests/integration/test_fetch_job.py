@@ -12,7 +12,7 @@ from kisan.understanding.dictionary import Dictionary
 
 ROOT = Path(__file__).resolve().parents[2]
 DICTIONARY = Dictionary.from_reference(ROOT / "data" / "reference")
-FIXTURE = ROOT / "tests" / "fixtures" / "sources" / "fixture" / "prices.yaml"
+FIXTURE = ROOT / "data" / "sample_prices.yaml"
 
 
 def _prices(engine: Engine) -> dict[tuple[str, str], tuple[int | None, int | None, str]]:

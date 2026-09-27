@@ -161,6 +161,12 @@ related implementation task starts; each has a matching blocking task in `tasks.
   set will measure this, and the LLM stage can be removed if the dictionary alone passes);
   LLM-only (slower, costlier, and harder to make deterministic in tests); a trained intent model
   (no labelled data yet).
+- **T067 result (2026-09-27)**: dictionary-only pass rate on the golden set is 100% for both
+  scripts (Urdu script 39/39, Roman Urdu 43/43), above the 90% gate, so the LLM fallback
+  (T068, T070–T072) is **not built** for now and the `anthropic` dependency stays unused.
+  Caveat: the golden set was written by the developer, not by farmers or native speakers.
+  Re-run this gate after the native-speaker review (T077) and the pilot (T085); if either
+  script drops below 90%, build the fallback as planned.
 
 ## R9. Reply generation
 

@@ -9,8 +9,8 @@ from __future__ import annotations
 import argparse
 import asyncio
 import sys
+from dataclasses import dataclass
 from datetime import datetime
-from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -44,7 +44,15 @@ def _source_row(engine: Engine, source_id: str) -> PriceSource | None:
         return session.get(PriceSource, source_id)
 
 
-async def run(engine: Engine, connector: Connector, dictionary: Dictionary) -> FetchResult | None:
+@dataclass(frozen=True)
+class FetchOutcome:
+    result: FetchResult
+    valid: int
+    rejected: int
+
+
+async def run(engine: Engine, connector: Connector,
+              dictionary: Dictionary) -> FetchOutcome | None:
     """Fetch one source and store its prices. Returns None if the source is disabled."""
     source = _source_row(engine, connector.id)
     if source is None or not source.enabled:
@@ -58,7 +66,7 @@ async def run(engine: Engine, connector: Connector, dictionary: Dictionary) -> F
              valid=report.valid, rejected=report.rejected,
              unmapped=sorted(set(report.unmapped_labels)), errors=result.errors)
     _track_failures(engine, connector.id, succeeded=report.valid > 0)
-    return result
+    return FetchOutcome(result, report.valid, report.rejected)
 
 
 def _track_failures(engine: Engine, source_id: str, succeeded: bool) -> None:
@@ -90,7 +98,7 @@ async def _main(source_id: str) -> int:
     async with httpx.AsyncClient() as client:
         connector: Connector
         if source_id == "fixture":
-            connector = FixtureSource(Path("tests/fixtures/sources/fixture/prices.yaml"))
+            connector = FixtureSource(settings.sample_prices_file)
         elif source_id == "amis_punjab":
             source = _source_row(engine, source_id)
             connector = AmisPunjabSource(client, base_url=source.url if source else "")

@@ -10,7 +10,7 @@ import yaml
 
 from kisan.prices.sources import FetchResult, RawPrice
 
-DEFAULT_FILE = Path("tests/fixtures/sources/fixture/prices.yaml")
+DEFAULT_FILE = Path("data/sample_prices.yaml")
 
 
 class FixtureSource:

@@ -28,6 +28,7 @@ from kisan.conversation.handler import Handler
 from kisan.conversation.replies import Catalogue
 from kisan.db import make_engine, make_session_factory
 from kisan.db.models import PriceRecord
+from kisan.jobs.daily import run_daily
 from kisan.observability import configure_logging, get_logger
 from kisan.prices.lookup import FRESHNESS_DAYS, today_pkt
 from kisan.understanding.dictionary import Dictionary
@@ -123,6 +124,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             return JSONResponse({"error": "invalid SMS payload"}, status_code=422)
         await _dispatch(message, background)
         return JSONResponse({"status": "accepted"})
+
+    @app.get("/jobs/daily")
+    async def daily_job(request: Request) -> JSONResponse:
+        """Scheduled price refresh + purge (Vercel Cron). Off unless CRON_SECRET is set."""
+        if settings.cron_secret is None:
+            return JSONResponse({"detail": "Not Found"}, status_code=404)
+        expected = f"Bearer {settings.cron_secret.get_secret_value()}"
+        if not hmac.compare_digest(request.headers.get("Authorization", ""), expected):
+            log.warning("cron_secret_invalid")
+            return JSONResponse({"error": "unauthorized"}, status_code=401)
+        summary = await run_daily(services.engine, settings, services.http,
+                                  services.handler.dictionary)
+        return JSONResponse(summary)
 
     @app.get("/health")
     async def health() -> JSONResponse:

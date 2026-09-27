@@ -55,6 +55,42 @@ paths:
         "200": { description: Accepted }
         "401": { description: Secret does not match (constant-time comparison) }
         "422": { description: Missing required fields }
+  /jobs/daily:
+    get:
+      summary: Daily scheduled job (Vercel Cron) — refresh prices from enabled sources, purge old data
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: "Bearer <CRON_SECRET>; the route answers 404 when CRON_SECRET is not configured"
+          schema: { type: string }
+      responses:
+        "200":
+          description: Summary per source and purge counts
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [sources, purged]
+                properties:
+                  sources:
+                    type: object
+                    additionalProperties:
+                      oneOf:
+                        - { type: string, const: "skipped (disabled)" }
+                        - type: object
+                          properties:
+                            fetched: { type: integer }
+                            valid: { type: integer }
+                            rejected: { type: integer }
+                            errors: { type: array, items: { type: string } }
+                  purged:
+                    type: object
+                    properties:
+                      turns: { type: integer }
+                      clarifications: { type: integer }
+        "401": { description: Missing or wrong secret }
+        "404": { description: Scheduled job not configured }
   /health:
     get:
       summary: Liveness and data freshness

@@ -63,7 +63,7 @@ class Handler:
                  clock: Callable[[], datetime] = utcnow) -> None:
         self._sessions = sessions
         self._catalogue = catalogue
-        self._dictionary = dictionary
+        self.dictionary = dictionary
         self._senders = senders
         self._clock = clock
         # FR-013: "checking" message after holding_after s; give up at give_up_after s.
@@ -160,7 +160,7 @@ class Handler:
         channel = message.channel
         if message.kind != "text" or not message.text.strip():
             return Decision("non_text", self._catalogue.render("non_text", script, channel))
-        result = self._dictionary.extract(message.text)
+        result = self.dictionary.extract(message.text)
         with self._sessions() as session:
             if result.intent == "price":
                 return self._price_or_question(session, message, result, script)
